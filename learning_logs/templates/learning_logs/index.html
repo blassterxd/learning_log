@@ -1,17 +1,32 @@
 {% extends "learning_logs/base.html" %}
 {% load static %}
 {% block content %}
-  <div class="p-5 mb-4 bg-light rounded-3 text-center">
-    <h1 class="display-5">Track your learning.</h1>
-    <p class="lead">Make your own Learning Log, and keep a list of the topics you're learning about. Whenever you learn something new about a topic, make an entry summarizing what you've learned.</p>
-    <img src="{% static 'learning_logs/images/funny.jpg' %}"
-         class="img-fluid rounded mb-3"
-         style="max-height: 300px;"
-         alt="Funny picture">
-    {% if not user.is_authenticated %}
-      <div>
-        <a class="btn btn-primary btn-lg" href="{% url 'users:register' %}">Register &raquo;</a>
-      </div>
-    {% endif %}
+  <div class="row align-items-center justify-content-center g-4">
+    <div class="col-md-3 text-center">
+      <img src="{% static 'learning_logs/images/login1.jpg' %}"
+           class="img-fluid rounded"
+           style="max-height: 250px;"
+           alt="Funny picture 1">
+    </div>
+
+    <div class="col-md-5">
+      <h2 class="mb-3">Log in</h2>
+      {% if form.errors %}
+        <div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
+      {% endif %}
+      <form method="post" action="{% url 'users:login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" name="submit">Log in</button>
+        <input type="hidden" name="next" value="{% url 'learning_logs:index' %}"/>
+      </form>
+    </div>
+
+    <div class="col-md-3 text-center">
+      <img src="{% static 'learning_logs/images/login2.jpg' %}"
+           class="img-fluid rounded"
+           style="max-height: 250px;"
+           alt="Funny picture 2">
+    </div>
   </div>
 {% endblock content %}
